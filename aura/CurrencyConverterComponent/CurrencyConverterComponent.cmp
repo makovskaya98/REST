@@ -1,0 +1,75 @@
+<aura:component description="CurrencyConverterComponent"
+                controller="CurrencyConverterController"
+                implements="flexipage:availableForAllPageTypes">
+    <aura:attribute name="date" type="String"/>
+    <aura:attribute name="amountBelRub" type="Integer"/>
+    <aura:attribute name="amountForCurr" type="Integer"/>
+    <aura:attribute name="convertedAmountBelRub" type="Integer"/>
+    <aura:attribute name="convertedAmountForCur" type="Integer"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="foreignCurrency" type="List"/>
+    <aura:attribute name="curAbbreviation" type="String"/>
+    <aura:attribute name="convertCurrencyFrom" type="String"/>
+    <aura:attribute name="convertCurrencyTo" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <div class="main-container slds-size_1-of-1 slds-color__background_gray-1">
+        <div class="slds-size_1-of-4">
+            <lightning:input type="date" name="data" value="{!v.date}" label="Enter a date: "/>
+            <lightning:button variant="brand"
+                              label="Send"
+                              title="Send"
+                              onclick="{!c.getTable}"
+                              class="slds-m-left_x-small"/>
+        </div>
+        <div class="slds-size_1-of-4">
+            <lightning:select aura:id="selectForeignCurrency"
+                              name="select"
+                              label="Foreign currency"
+                              value="{!v.curAbbreviation}">
+                <aura:iteration items="{!v.foreignCurrency}" var="record">
+                    <option value="{!record.Cur_Abbreviation}">{!record.Cur_Abbreviation}</option>
+                </aura:iteration>
+            </lightning:select>
+            <lightning:input type="number" name="amount" value="{!v.amountBelRub}" label="Enter the amount: "/>
+            <lightning:button variant="brand"
+                              label="Convert"
+                              title="Convert"
+                              onclick="{!c.convertCurrency}"
+                              class="slds-m-left_x-small"/>
+            <span>{!v.convertedAmountBelRub}</span>
+        </div>
+        <div class="slds-size_1-of-4">
+            <lightning:select aura:id="selectForeignCurrency2"
+                              name="select"
+                              label="Foreign currency"
+                              value="{!v.convertCurrencyFrom}">
+                <aura:iteration items="{!v.foreignCurrency}" var="record">
+                    <option value="{!record.Cur_Abbreviation}">{!record.Cur_Abbreviation}</option>
+                </aura:iteration>
+            </lightning:select>
+            <lightning:input type="number" name="amount" value="{!v.amountForCurr}" label="Enter the amount: "/>
+            <lightning:select aura:id="selectForeignCurrency3"
+                              name="select"
+                              label="Foreign currency"
+                              value="{!v.convertCurrencyTo}">
+                <aura:iteration items="{!v.foreignCurrency}" var="record">
+                    <option value="{!record.Cur_Abbreviation}">{!record.Cur_Abbreviation}</option>
+                </aura:iteration>
+            </lightning:select>
+            <lightning:button variant="brand"
+                              label="Convert"
+                              title="Convert"
+                              onclick="{!c.convertForeignCurrency}"
+                              class="slds-m-left_x-small"/>
+            <span>{!v.convertedAmountForCur}</span>
+        </div>
+        <div class="slds-size_10-of-12">
+            <lightning:datatable  keyField="id"
+                                  data="{! v.data }"
+                                  columns="{! v.columns }"
+                                  hideCheckboxColumn="true"/>
+        </div>
+    </div>
+</aura:component>
